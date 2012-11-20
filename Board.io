@@ -15,6 +15,16 @@ Board atPut := method(x, y, value,
 	return self
 )
 
+Board neighborsOf := method(x, y,
+	result := List clone
+	for(i, x - 1, x + 1,
+		for(j, y - 1, y + 1,
+			if(i != x or j != y, result append(self at(i, j)))
+		)
+	)
+	return result
+)
+
 Board _keyString := method (x, y,
 	return (x asString) .. " " .. (y asString)
 )
