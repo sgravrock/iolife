@@ -150,6 +150,28 @@ expect := method(actual,
   wrapper
 )
 
+spyOn := method(obj, methodName,
+	if(obj == nil, Exception raise("Can't spy on nil"))
+	if(methodName == nil, Exception raise("Method name wasn't passed to spyOn"))
+	spy := Spy clone
+	obj setSlot(methodName, method(self run(call)))
+	obj getSlot(methodName) setScope(spy)
+	spy
+)
+
+Spy := Object clone
+Spy init := method(
+	self calls := List clone
+)
+Spy run := method(forwardedCall,
+	// TODO: implement more interesting things than just logging our args.
+	self calls append(forwardedCall message arguments)
+	// TODO: return a more sensible default
+	forwardedCall
+)
+// isSpy is just an aid to the Jasmine tests for spies.
+Spy isSpy := true
+
 Spec := Object clone
 Spec run := method(
   ex := try(doMessage(test))
