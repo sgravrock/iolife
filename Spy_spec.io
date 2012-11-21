@@ -33,3 +33,20 @@ describe("Spies",
 		expect(spy calls at(1) at(1)) toEqual(36)
 	)
 )
+
+describe("toHaveBeenCalled matcher", 
+	it("should succeed if the spy was called",
+		spiedOn := Object clone
+		spy := spyOn(spiedOn, "foo")
+		spiedOn foo
+		matcher := expect(spy) toHaveBeenCalled
+		expect(matcher success) toBe(true)
+	),
+
+	it("should fail if the spy wasn't called",
+		spiedOn := Object clone
+		spy := spyOn(spiedOn, "foo")
+		ex := try(expect(spy) toHaveBeenCalled)
+		expect(ex error) toBe("Expected spy to have been called")
+	)
+)

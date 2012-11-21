@@ -114,6 +114,12 @@ Matcher message := method(inverted,
   "Expected " .. actual .. if(inverted, " not ", " ") .. expectation fromCamelCaseToSentence .. " " .. expected
 )
 
+Matcher toHaveBeenCalled := method(
+	if(actual calls size > 0, return true)
+	self message := "Expected spy to have been called"
+	false
+)
+
 Sequence fromCamelCaseToSentence := method(
   output := ""
   self foreach(i, char,
