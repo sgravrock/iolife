@@ -154,7 +154,16 @@ spyOn := method(obj, methodName,
 	if(obj == nil, Exception raise("Can't spy on nil"))
 	if(methodName == nil, Exception raise("Method name wasn't passed to spyOn"))
 	spy := Spy clone
-	obj setSlot(methodName, method(self run(call)))
+
+	// Pass calls through to the spy object's run method.
+	// We use explicit arguments instead of accessing "call messge arguments"
+	// because the latter contains copies of the arguments with their prototypes
+	// stripped off. That isn't very useful for expectations or, well, anything.
+	// This approach limits us to 5 arguments, but that should be enough in most
+	// cases.
+	obj setSlot(methodName, method(a, b, c, d, e,
+		self run(a, b, c, d, e)
+	))
 	obj getSlot(methodName) setScope(spy)
 	spy
 )
@@ -163,11 +172,18 @@ Spy := Object clone
 Spy init := method(
 	self calls := List clone
 )
-Spy run := method(forwardedCall,
+Spy run := method(a, b, c, d, e,
 	// TODO: implement more interesting things than just logging our args.
-	self calls append(forwardedCall message arguments)
+	self calls append(self argsToList(a, b, c, d, e))
 	// TODO: return a more sensible default
-	forwardedCall
+)
+Spy argsToList := method(a, b, c, d, e,
+	if (e != nil, return list(a, b, c, d, e))
+	if (d != nil, return list(a, b, c, d))
+	if (c != nil, return list(a, b, c))
+	if (b != nil, return list(a, b))
+	if (a != nil, return list(a))
+	return list()
 )
 // isSpy is just an aid to the Jasmine tests for spies.
 Spy isSpy := true
