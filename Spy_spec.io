@@ -50,3 +50,28 @@ describe("toHaveBeenCalled matcher",
 		expect(ex error) toBe("Expected spy to have been called")
 	)
 )
+
+describe("toHaveBeenCalledWith matcher",
+	it("should succeed if the spy was called with the right arguments",
+		spiedOn := Object clone
+		spy := spyOn(spiedOn, "foo")
+		spiedOn foo("a", 5)
+		matcher := expect(spy) toHaveBeenCalledWith("a", 5)
+		expect(matcher success) toBe(true)
+	),
+
+	it("should fail if the spy wasn't called",
+		spiedOn := Object clone
+		spy := spyOn(spiedOn, "foo")
+		ex := try(expect(spy) toHaveBeenCalledWith(42))
+		expect(ex error) toBe("Expected spy to have been called with list(42) but it wasn't called.")
+	),
+
+	it("should fail if the spy was called with the wrong arguments",
+		spiedOn := Object clone
+		spy := spyOn(spiedOn, "foo")
+		spiedOn foo("a", 5)
+		ex := try(expect(spy) toHaveBeenCalledWith(42))
+		expect(ex error) toBe("Expected spy to have been called with list(42) but it was called with list(a, 5).")
+	)
+)

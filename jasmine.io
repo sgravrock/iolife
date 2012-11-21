@@ -120,6 +120,21 @@ Matcher toHaveBeenCalled := method(
 	false
 )
 
+Matcher toHaveBeenCalledWith := method(a, b, c, d, e,
+	expectedArglist := Spy argsToList(a, b, c, d, e)
+	prefix := "Expected spy to have been called with " .. expectedArglist
+	if(actual calls size == 0,
+		self message := prefix .. " but it wasn't called."
+		return false
+	)
+	args := actual calls last
+	if (args != expectedArglist,
+		self message := prefix .. " but it was called with " .. args .. "."
+		return false
+	)
+	true
+)
+
 Sequence fromCamelCaseToSentence := method(
   output := ""
   self foreach(i, char,
