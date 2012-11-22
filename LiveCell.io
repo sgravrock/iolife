@@ -7,3 +7,7 @@ LiveCell shouldLive := method(neighbors,
 	neighbors foreach(it, if(it isLive, n := n + 1))
 	return n > 1 and n < 4
 )
+
+LiveCell becomes := method(neighbors, 
+	if (self shouldLive(neighbors), self, DeadCell)
+)

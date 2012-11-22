@@ -18,5 +18,20 @@ describe("Board",
 		target atPut(1, 1, "bar")
 		expect (target neighborsOf(0, 0)) toBe(
 			list(42, 42, 42, 42, 42, 42, 42, "bar"))
+	),
+
+	it("should initially have 0 size", 
+		target := Board clone
+		actual := list(target minX, target minY, target maxX, target maxY)
+		expect(actual) toBe(list(0, 0, 0, 0))
+	),
+
+	it("should keep track of its size", 
+		target := Board clone
+		target atPut(0, -1, "x")
+		target atPut(-5, 2, "x")
+		target atPut(3, 0, "x")
+		actual := list(target minX, target minY, target maxX, target maxY)
+		expect(actual) toBe(list(-5, -1, 3, 2))
 	)
 )
