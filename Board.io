@@ -10,7 +10,7 @@ Board init := method(
 
 // Set defaultValue to specify the contents of cells that are read
 // before being written
-Board defaultValue := nil
+Board defaultValue := DeadCell
 
 Board at := method(x, y,
 	return (self map) at(self _keyString(x, y), self defaultValue)

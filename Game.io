@@ -3,6 +3,9 @@ Game := Object clone
 Game init := method(
 	self board := Board clone
 	self board defaultValue := DeadCell
+	// Callers can (and usually should) set the writer slot to an object that
+	// provides a writeBoard method.
+	self writer := nil
 )
 
 Game tick := method(
@@ -25,5 +28,6 @@ Game tick := method(
 		self board atPut(d at(0), d at(1), d at(2))
 	)
 
+	if(self writer != nil, self writer writeBoard(self board))
 	self
 )
