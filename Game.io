@@ -11,8 +11,8 @@ Game init := method(
 Game run := method(
 	if(self writer != nil, self writer writeBoard(self board))
 	loop(
-		self tick
 		System sleep(1)
+		self tick
 	)
 )
 
