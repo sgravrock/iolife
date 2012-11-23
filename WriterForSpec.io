@@ -2,6 +2,7 @@
 
 WriterForSpec := Writer clone
 WriterForSpec clearBetweenWrites := false
+WriterForSpec showBorder := true
 
 WriterForSpec init := method(
 	super(init)

@@ -1,28 +1,33 @@
 Writer := Object clone
 Writer clearBetweenWrites := true
+Writer showBorder := false
 
 Writer writeBoard := method(board,
 	// Clear the screen if configured to do so.
 	// Only works on Unix-y systems.
 	if(self clearBetweenWrites, System system("clear"))
-	horizBorder := "+"
 
-	for (i, board minX, board maxX,
-		horizBorder = horizBorder .. "-")
+	if(self showBorder,
+		horizBorder := "+"
 	
-	horizBorder = horizBorder .. "+"
-	self writeln(horizBorder)
+		for (i, board minX, board maxX,
+			horizBorder = horizBorder .. "-")
+		
+		horizBorder = horizBorder .. "+"
+		self writeln(horizBorder)
+	)
 
 	for(i, board minY, board maxY, 
-		self write("|")
+		if(self showBorder, self write("|"))
 		for(j, board minX, board maxX,
 			cell := board at(j, i)
 			self write(if(cell isLive, "x", " "))
 		)
 
-		self write("|\n")
+		if(self showBorder, self write("|"))
+		self write("\n")
 	)
 
-	self writeln(horizBorder)
+	if(self showBorder, self writeln(horizBorder))
 	self
 )
