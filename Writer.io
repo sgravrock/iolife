@@ -1,11 +1,16 @@
 Writer := Object clone
 Writer clearBetweenWrites := true
 Writer showBorder := false
+Writer showGeneration := true
+Writer generation := 0
 
 Writer writeBoard := method(board,
 	// Clear the screen if configured to do so.
 	// Only works on Unix-y systems.
 	if(self clearBetweenWrites, System system("clear"))
+
+	self generation = self generation + 1
+	if(self showGeneration, self writeln(self generation))
 
 	if(self showBorder,
 		horizBorder := "+"
