@@ -8,6 +8,14 @@ Game init := method(
 	self writer := nil
 )
 
+Game run := method(
+	if(self writer != nil, self writer writeBoard(self board))
+	loop(
+		self tick
+		System sleep(1)
+	)
+)
+
 Game tick := method(
 	deltas := List clone
 
